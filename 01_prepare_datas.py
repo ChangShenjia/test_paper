@@ -89,15 +89,25 @@ t0 = time()
 pred = clf.predict(features_test)
 tt = time() - t0
 print("Predicted in {} seconds".format(round(tt, 3)))
-# 使用测试标签计算R平方值。
+# 使用测试标签计算R平方值
 acc = accuracy_score(pred, labels_test)
 print("R squared is {}.".format(round(acc, 4)))
 
-# 5. KMeans聚类
+# 5. K-Means聚类
 k = 30
 km = KMeans(n_clusters=k)
 t0 = time()
 km.fit(f_t_train)
 tt = time() - t0
 print("Clustered in {} seconds".format(round(tt, 3)))
+# 检查集群大小
 print(pd.Series(km.labels_).value_counts())
+# 使用完整的标签集
+labels_ten = kdd_data_10percent['label']
+label_names = list(map(
+    lambda x: pd.Series([labels_ten[i] for i in range(len(km.labels_)) if km.labels_[i] == x]),
+    range(k)))
+# 为每个集群打印标签
+for i in range(k):
+    print("Cluster {} labels:".format(i))
+    print(label_names[i].value_counts())
