@@ -86,11 +86,11 @@ features_train, features_test, labels_train, labels_test = train_test_split(
     random_state=42)
 # 使用分类器和测试数据进行预测
 t0 = time()
-pred = clf.predict(features_test)
+pred_kn = clf.predict(features_test)
 tt = time() - t0
 print("Predicted in {} seconds".format(round(tt, 3)))
 # 使用测试标签计算R平方值
-acc = accuracy_score(pred, labels_test)
+acc = accuracy_score(pred_kn, labels_test)
 print("R squared is {}.".format(round(acc, 4)))
 
 # 5. K-Means聚类
@@ -111,3 +111,8 @@ label_names = list(map(
 for i in range(k):
     print("Cluster {} labels:".format(i))
     print(label_names[i].value_counts())
+# 预测使用我们的测试数据
+t0 = time()
+pred_km = km.predict(f_c_train)
+tt = time() - t0
+print("Assigned clusters in {} seconds".format(round(tt, 3)))
